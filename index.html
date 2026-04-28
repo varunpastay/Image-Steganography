@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StegoVault Pro — Advanced Image Steganography</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Animated background grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="url(#logoGrad)"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36">
+                <stop offset="0%" stop-color="#6C63FF"/>
+                <stop offset="100%" stop-color="#3ECFCF"/>
+              </linearGradient>
+            </defs>
+            <rect x="8" y="8" width="20" height="20" rx="3" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+            <circle cx="13" cy="13" r="2" fill="white" opacity="0.9"/>
+            <path d="M26 22L21 17L10 27" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 10l4 4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">StegoVault</div>
+          <div class="logo-ver">Pro v3.0</div>
+        </div>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">OPERATIONS</div>
+      <a href="#" class="nav-item active" data-tab="encode">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span>Encode</span>
+        <div class="nav-badge">HIDE</div>
+      </a>
+      <a href="#" class="nav-item" data-tab="decode">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>Decode</span>
+        <div class="nav-badge">REVEAL</div>
+      </a>
+      <a href="#" class="nav-item" data-tab="batch">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="9" height="9" rx="2"/><rect x="13" y="2" width="9" height="9" rx="2"/><rect x="2" y="13" width="9" height="9" rx="2"/><rect x="13" y="13" width="9" height="9" rx="2"/></svg>
+        <span>Batch Process</span>
+        <div class="nav-badge new">NEW</div>
+      </a>
+
+      <div class="nav-section-label">ANALYSIS</div>
+      <a href="#" class="nav-item" data-tab="analyze">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>Stego Analysis</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="compare">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        <span>Image Compare</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="histogram">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+        <span>LSB Visualizer</span>
+      </a>
+
+      <div class="nav-section-label">TOOLS</div>
+      <a href="#" class="nav-item" data-tab="stealth">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Stealth Check</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="settings">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span>Settings</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="log">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Session Log</span>
+        <div class="nav-badge" id="log-count" style="display:none">0</div>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="security-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        100% Client-Side · Zero Upload
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="breadcrumb" id="breadcrumb">
+          <span class="bc-root">StegoVault</span>
+          <span class="bc-sep">›</span>
+          <span class="bc-current" id="bcCurrent">Encode</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="theme-toggle" id="themeToggle" title="Toggle theme">
+          <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+        <div class="status-pill" id="statusPill">
+          <span class="status-dot"></span>
+          <span id="statusText">Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- PANELS -->
+    <div class="panels-container">
+
+      <!-- ═══ ENCODE PANEL ═══ -->
+      <section class="panel active" id="panel-encode">
+        <div class="panel-header">
+          <h1 class="panel-title">Encode <span class="title-accent">Message</span></h1>
+          <p class="panel-subtitle">Conceal secret data inside any image using LSB steganography with optional AES-256 encryption</p>
+        </div>
+
+        <div class="encode-layout">
+          <!-- Left column -->
+          <div class="col-left">
+            <div class="card" id="enc-image-card">
+              <div class="card-head">
+                <span class="card-label">Cover Image</span>
+                <span class="card-hint">PNG recommended for lossless output</span>
+              </div>
+              <div class="drop-zone" id="enc-drop" ondragover="dz.over(event,'enc-drop')" ondragleave="dz.leave('enc-drop')" ondrop="dz.drop(event,'encode')">
+                <input type="file" id="enc-file" accept="image/*" onchange="App.loadImage(this,'encode')">
+                <div class="dz-content" id="enc-dz-content">
+                  <div class="dz-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                  </div>
+                  <p class="dz-title">Drop image here</p>
+                  <p class="dz-sub">or click to browse · PNG, JPG, BMP, WEBP</p>
+                </div>
+                <div class="dz-preview" id="enc-dz-preview" style="display:none">
+                  <img id="enc-preview-img" src="" alt="">
+                  <div class="dz-overlay">
+                    <button class="dz-change" onclick="document.getElementById('enc-file').click(); event.stopPropagation()">Change Image</button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="enc-image-meta" class="image-meta" style="display:none">
+                <div class="meta-grid">
+                  <div class="meta-item"><span class="meta-k">Dimensions</span><span class="meta-v" id="enc-dims">—</span></div>
+                  <div class="meta-item"><span class="meta-k">File size</span><span class="meta-v" id="enc-fsize">—</span></div>
+                  <div class="meta-item"><span class="meta-k">Capacity (1 LSB)</span><span class="meta-v" id="enc-cap1">—</span></div>
+                  <div class="meta-item"><span class="meta-k">Capacity (4 LSB)</span><span class="meta-v" id="enc-cap4">—</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><span class="card-label">Encoding Options</span></div>
+              <div class="options-stack">
+                <div class="opt-row">
+                  <div class="opt-info">
+                    <span class="opt-name">LSB Depth</span>
+                    <span class="opt-desc">Bits per channel to modify. Higher = more capacity, less imperceptibility.</span>
+                  </div>
+                  <div class="bit-selector" id="bit-selector">
+                    <button class="bit-btn active" data-bits="1">1</button>
+                    <button class="bit-btn" data-bits="2">2</button>
+                    <button class="bit-btn" data-bits="3">3</button>
+                    <button class="bit-btn" data-bits="4">4</button>
+                  </div>
+                </div>
+                <div class="opt-divider"></div>
+                <div class="opt-row">
+                  <div class="opt-info">
+                    <span class="opt-name">AES-256 Encryption</span>
+                    <span class="opt-desc">Encrypt message before embedding. Adds cryptographic security layer.</span>
+                  </div>
+                  <div class="toggle-switch" id="enc-aes-toggle" onclick="App.toggleAES('enc')"></div>
+                </div>
+                <div id="enc-pass-block" class="pass-block" style="display:none">
+                  <div class="pass-row">
+                    <input type="password" class="field-input" id="enc-pass" placeholder="Enter passphrase…">
+                    <input type="password" class="field-input" id="enc-pass2" placeholder="Confirm passphrase…">
+                  </div>
+                  <div class="pass-strength" id="pass-strength">
+                    <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
+                    <span class="strength-label" id="strength-label">—</span>
+                  </div>
+                </div>
+                <div class="opt-divider"></div>
+                <div class="opt-row">
+                  <div class="opt-info">
+                    <span class="opt-name">Randomize Pixel Order</span>
+                    <span class="opt-desc">Scatter bits across image pseudo-randomly using a seed. Harder to detect.</span>
+                  </div>
+                  <div class="toggle-switch" id="enc-scatter-toggle" onclick="App.toggleScatter('enc')"></div>
+                </div>
+                <div id="enc-seed-block" class="pass-block" style="display:none">
+                  <input type="text" class="field-input" id="enc-seed" placeholder="Scatter seed (any string)…">
+                </div>
+                <div class="opt-divider"></div>
+                <div class="opt-row">
+                  <div class="opt-info">
+                    <span class="opt-name">Embed File</span>
+                    <span class="opt-desc">Hide any file (up to image capacity) instead of text.</span>
+                  </div>
+                  <div class="toggle-switch" id="enc-file-toggle" onclick="App.toggleFileMode()"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column -->
+          <div class="col-right">
+            <div class="card flex-card">
+              <div class="card-head">
+                <span class="card-label" id="msg-card-label">Secret Message</span>
+                <div class="tab-mini" id="msg-tabs">
+                  <button class="tab-mini-btn active" onclick="App.switchMsgTab('text', this)">Text</button>
+                  <button class="tab-mini-btn" onclick="App.switchMsgTab('file', this)">File</button>
+                </div>
+              </div>
+
+              <!-- Text input -->
+              <div id="msg-text-area">
+                <textarea class="msg-textarea" id="enc-message" placeholder="Type your secret message here…&#10;&#10;Supports Unicode, emojis, code, JSON — any UTF-8 text." oninput="App.onMsgInput()"></textarea>
+                <div class="textarea-footer">
+                  <span class="char-count" id="char-count">0 chars · 0 bytes</span>
+                  <div class="cap-wrap">
+                    <div class="cap-bar"><div class="cap-fill" id="cap-fill"></div></div>
+                    <span class="cap-pct" id="cap-pct">0%</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- File input -->
+              <div id="msg-file-area" style="display:none">
+                <div class="file-drop-zone" id="msg-file-drop" ondragover="dz.over(event,'msg-file-drop')" ondragleave="dz.leave('msg-file-drop')" ondrop="dz.dropFile(event)">
+                  <input type="file" id="msg-file-input" onchange="App.loadSecretFile(this)">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <p>Drop any file or click to select</p>
+                  <small id="file-selected-name">No file selected</small>
+                </div>
+              </div>
+            </div>
+
+            <div id="enc-alert-box"></div>
+
+            <button class="btn btn-primary" id="enc-btn" onclick="App.encode()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Encode & Download PNG</span>
+              <div class="btn-loader" id="enc-loader" style="display:none"></div>
+            </button>
+
+            <div class="result-card" id="enc-result" style="display:none">
+              <div class="result-header">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Encoding Successful
+              </div>
+              <div class="metrics-grid">
+                <div class="metric"><span class="metric-v" id="r-dims">—</span><span class="metric-k">Dimensions</span></div>
+                <div class="metric"><span class="metric-v" id="r-psnr">—</span><span class="metric-k">PSNR (dB)</span></div>
+                <div class="metric"><span class="metric-v" id="r-ssim">—</span><span class="metric-k">MSE</span></div>
+                <div class="metric"><span class="metric-v" id="r-lsb">—</span><span class="metric-k">LSBs Used</span></div>
+                <div class="metric"><span class="metric-v" id="r-bytes">—</span><span class="metric-k">Bytes Hidden</span></div>
+                <div class="metric"><span class="metric-v" id="r-enc">—</span><span class="metric-k">Encrypted</span></div>
+              </div>
+              <div class="lsb-viz-wrap">
+                <div class="card-head" style="margin-bottom:8px"><span class="card-label">LSB Bit Plane Preview</span></div>
+                <canvas id="lsb-plane-canvas" width="256" height="64"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ DECODE PANEL ═══ -->
+      <section class="panel" id="panel-decode">
+        <div class="panel-header">
+          <h1 class="panel-title">Decode <span class="title-accent">Message</span></h1>
+          <p class="panel-subtitle">Extract hidden data from a StegoVault-encoded image</p>
+        </div>
+        <div class="encode-layout">
+          <div class="col-left">
+            <div class="card">
+              <div class="card-head"><span class="card-label">Stego Image</span></div>
+              <div class="drop-zone" id="dec-drop" ondragover="dz.over(event,'dec-drop')" ondragleave="dz.leave('dec-drop')" ondrop="dz.drop(event,'decode')">
+                <input type="file" id="dec-file" accept="image/*" onchange="App.loadImage(this,'decode')">
+                <div class="dz-content" id="dec-dz-content">
+                  <div class="dz-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                  </div>
+                  <p class="dz-title">Load stego image</p>
+                  <p class="dz-sub">Must be a PNG encoded by StegoVault</p>
+                </div>
+                <div class="dz-preview" id="dec-dz-preview" style="display:none">
+                  <img id="dec-preview-img" src="" alt="">
+                  <div class="dz-overlay">
+                    <button class="dz-change" onclick="document.getElementById('dec-file').click(); event.stopPropagation()">Change Image</button>
+                  </div>
+                </div>
+              </div>
+              <div id="dec-image-meta" class="image-meta" style="display:none">
+                <div class="meta-grid">
+                  <div class="meta-item"><span class="meta-k">Dimensions</span><span class="meta-v" id="dec-dims">—</span></div>
+                  <div class="meta-item"><span class="meta-k">File size</span><span class="meta-v" id="dec-fsize">—</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-head"><span class="card-label">Extraction Options</span></div>
+              <div class="options-stack">
+                <div class="opt-row">
+                  <div class="opt-info"><span class="opt-name">LSB Depth</span><span class="opt-desc">Must match encoding settings</span></div>
+                  <div class="bit-selector" id="dec-bit-selector">
+                    <button class="bit-btn active" data-bits="1">1</button>
+                    <button class="bit-btn" data-bits="2">2</button>
+                    <button class="bit-btn" data-bits="3">3</button>
+                    <button class="bit-btn" data-bits="4">4</button>
+                  </div>
+                </div>
+                <div class="opt-divider"></div>
+                <div class="opt-row">
+                  <div class="opt-info"><span class="opt-name">Encrypted Message</span><span class="opt-desc">Enable if message was AES-encrypted</span></div>
+                  <div class="toggle-switch" id="dec-aes-toggle" onclick="App.toggleAES('dec')"></div>
+                </div>
+                <div id="dec-pass-block" class="pass-block" style="display:none">
+                  <input type="password" class="field-input" id="dec-pass" placeholder="Decryption passphrase…">
+                </div>
+                <div class="opt-divider"></div>
+                <div class="opt-row">
+                  <div class="opt-info"><span class="opt-name">Scattered Pixels</span><span class="opt-desc">Enable if scatter mode was used during encoding</span></div>
+                  <div class="toggle-switch" id="dec-scatter-toggle" onclick="App.toggleScatter('dec')"></div>
+                </div>
+                <div id="dec-seed-block" class="pass-block" style="display:none">
+                  <input type="text" class="field-input" id="dec-seed" placeholder="Scatter seed…">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-right">
+            <div id="dec-alert-box"></div>
+            <button class="btn btn-teal" id="dec-btn" onclick="App.decode()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+              <span>Extract Hidden Message</span>
+              <div class="btn-loader" id="dec-loader" style="display:none"></div>
+            </button>
+            <div class="decoded-output" id="decoded-output" style="display:none">
+              <div class="decoded-header">
+                <span class="decoded-badge">DECODED</span>
+                <div class="decoded-actions">
+                  <button class="action-btn" onclick="App.copyDecoded()" title="Copy">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                    Copy
+                  </button>
+                  <button class="action-btn" onclick="App.downloadDecoded()" title="Download" id="dec-download-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download
+                  </button>
+                </div>
+              </div>
+              <pre class="decoded-text" id="decoded-text"></pre>
+              <div class="decoded-stats" id="decoded-stats"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ BATCH PANEL ═══ -->
+      <section class="panel" id="panel-batch">
+        <div class="panel-header">
+          <h1 class="panel-title">Batch <span class="title-accent">Process</span></h1>
+          <p class="panel-subtitle">Encode the same message into multiple images simultaneously</p>
+        </div>
+        <div class="batch-layout">
+          <div class="card">
+            <div class="card-head"><span class="card-label">Batch Images</span><span class="card-hint" id="batch-count">0 images loaded</span></div>
+            <div class="batch-drop" id="batch-drop" ondragover="dz.over(event,'batch-drop')" ondragleave="dz.leave('batch-drop')" ondrop="dz.batchDrop(event)">
+              <input type="file" id="batch-files" accept="image/*" multiple onchange="Batch.loadFiles(this)">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="9" height="9" rx="2"/><rect x="13" y="2" width="9" height="9" rx="2"/><rect x="2" y="13" width="9" height="9" rx="2"/><rect x="13" y="13" width="9" height="9" rx="2"/></svg>
+              <p>Drop multiple images or click to select</p>
+            </div>
+            <div class="batch-thumbs" id="batch-thumbs"></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><span class="card-label">Message & Options</span></div>
+            <textarea class="msg-textarea" id="batch-message" placeholder="Secret message to hide in all images…" style="min-height:100px"></textarea>
+            <div class="options-stack" style="margin-top:14px">
+              <div class="opt-row">
+                <div class="opt-info"><span class="opt-name">LSB Depth</span></div>
+                <div class="bit-selector" id="batch-bit-selector">
+                  <button class="bit-btn active" data-bits="1">1</button>
+                  <button class="bit-btn" data-bits="2">2</button>
+                  <button class="bit-btn" data-bits="3">3</button>
+                  <button class="bit-btn" data-bits="4">4</button>
+                </div>
+              </div>
+              <div class="opt-divider"></div>
+              <div class="opt-row">
+                <div class="opt-info"><span class="opt-name">Encrypt</span></div>
+                <div class="toggle-switch" id="batch-aes-toggle" onclick="App.toggleAES('batch')"></div>
+              </div>
+              <div id="batch-pass-block" class="pass-block" style="display:none">
+                <input type="password" class="field-input" id="batch-pass" placeholder="Batch passphrase…">
+              </div>
+            </div>
+            <div id="batch-alert-box" style="margin-top:12px"></div>
+            <button class="btn btn-primary" style="margin-top:12px" onclick="Batch.processAll()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              Process All & Download ZIP
+            </button>
+            <div class="batch-progress" id="batch-progress" style="display:none">
+              <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+              <span class="prog-label" id="prog-label">Processing…</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ ANALYZE PANEL ═══ -->
+      <section class="panel" id="panel-analyze">
+        <div class="panel-header">
+          <h1 class="panel-title">Stego <span class="title-accent">Analysis</span></h1>
+          <p class="panel-subtitle">Detect potential steganographic content and assess image quality metrics</p>
+        </div>
+        <div class="encode-layout">
+          <div class="col-left">
+            <div class="card">
+              <div class="card-head"><span class="card-label">Image to Analyze</span></div>
+              <div class="drop-zone" id="ana-drop" ondragover="dz.over(event,'ana-drop')" ondragleave="dz.leave('ana-drop')" ondrop="dz.drop(event,'analyze')">
+                <input type="file" id="ana-file" accept="image/*" onchange="App.loadImage(this,'analyze')">
+                <div class="dz-content" id="ana-dz-content">
+                  <div class="dz-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                  <p class="dz-title">Load image for analysis</p>
+                  <p class="dz-sub">Supports any image format</p>
+                </div>
+                <div class="dz-preview" id="ana-dz-preview" style="display:none">
+                  <img id="ana-preview-img" src="" alt="">
+                  <div class="dz-overlay"><button class="dz-change" onclick="document.getElementById('ana-file').click(); event.stopPropagation()">Change</button></div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="margin-top:14px" onclick="Analysis.run()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Run Full Analysis
+            </button>
+          </div>
+          <div class="col-right">
+            <div class="analysis-results" id="analysis-results" style="display:none">
+              <div class="card">
+                <div class="card-head"><span class="card-label">Statistical Analysis</span></div>
+                <div class="analysis-grid" id="analysis-grid"></div>
+              </div>
+              <div class="card" style="margin-top:14px">
+                <div class="card-head"><span class="card-label">Channel Histograms</span></div>
+                <canvas id="histogram-canvas" width="480" height="140"></canvas>
+              </div>
+              <div class="card" style="margin-top:14px">
+                <div class="card-head"><span class="card-label">LSB Distribution</span></div>
+                <canvas id="lsb-dist-canvas" width="480" height="100"></canvas>
+              </div>
+              <div class="suspicion-meter" id="suspicion-meter" style="display:none">
+                <div class="susp-label">Steganography Suspicion Score</div>
+                <div class="susp-bar-wrap">
+                  <div class="susp-bar"><div class="susp-fill" id="susp-fill"></div></div>
+                  <span class="susp-score" id="susp-score">0%</span>
+                </div>
+                <div class="susp-verdict" id="susp-verdict"></div>
+              </div>
+            </div>
+            <div id="analyze-placeholder" class="placeholder-card">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <p>Load an image and run analysis to see statistical metrics, channel histograms, LSB distribution, and a steganography suspicion score.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ COMPARE PANEL ═══ -->
+      <section class="panel" id="panel-compare">
+        <div class="panel-header">
+          <h1 class="panel-title">Image <span class="title-accent">Compare</span></h1>
+          <p class="panel-subtitle">Side-by-side comparison of original and stego images with difference visualization</p>
+        </div>
+        <div class="compare-layout">
+          <div class="compare-images">
+            <div class="card">
+              <div class="card-head"><span class="card-label">Original Image</span></div>
+              <div class="drop-zone sm" id="cmp-orig-drop" ondragover="dz.over(event,'cmp-orig-drop')" ondragleave="dz.leave('cmp-orig-drop')" ondrop="dz.drop(event,'cmp-orig')">
+                <input type="file" id="cmp-orig-file" accept="image/*" onchange="App.loadImage(this,'cmp-orig')">
+                <div class="dz-content" id="cmp-orig-dz-content">
+                  <div class="dz-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                  <p class="dz-title">Original</p>
+                </div>
+                <div class="dz-preview" id="cmp-orig-dz-preview" style="display:none"><img id="cmp-orig-img" src="" alt=""><div class="dz-overlay"><button class="dz-change" onclick="document.getElementById('cmp-orig-file').click();event.stopPropagation()">Change</button></div></div>
+              </div>
+            </div>
+            <div class="compare-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </div>
+            <div class="card">
+              <div class="card-head"><span class="card-label">Stego Image</span></div>
+              <div class="drop-zone sm" id="cmp-stego-drop" ondragover="dz.over(event,'cmp-stego-drop')" ondragleave="dz.leave('cmp-stego-drop')" ondrop="dz.drop(event,'cmp-stego')">
+                <input type="file" id="cmp-stego-file" accept="image/*" onchange="App.loadImage(this,'cmp-stego')">
+                <div class="dz-content" id="cmp-stego-dz-content">
+                  <div class="dz-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                  <p class="dz-title">Stego</p>
+                </div>
+                <div class="dz-preview" id="cmp-stego-dz-preview" style="display:none"><img id="cmp-stego-img" src="" alt=""><div class="dz-overlay"><button class="dz-change" onclick="document.getElementById('cmp-stego-file').click();event.stopPropagation()">Change</button></div></div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="Compare.run()" style="margin:14px 0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            Compare Images
+          </button>
+          <div id="compare-output" style="display:none">
+            <div class="card">
+              <div class="card-head"><span class="card-label">Difference Map (amplified ×20)</span></div>
+              <canvas id="diff-canvas" style="width:100%;border-radius:8px;"></canvas>
+            </div>
+            <div class="metrics-grid" id="compare-metrics" style="margin-top:14px"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ LSB VISUALIZER ═══ -->
+      <section class="panel" id="panel-histogram">
+        <div class="panel-header">
+          <h1 class="panel-title">LSB <span class="title-accent">Visualizer</span></h1>
+          <p class="panel-subtitle">Render each bit-plane of an image to reveal embedded data visually</p>
+        </div>
+        <div class="encode-layout">
+          <div class="col-left">
+            <div class="card">
+              <div class="card-head"><span class="card-label">Image</span></div>
+              <div class="drop-zone" id="lsb-drop" ondragover="dz.over(event,'lsb-drop')" ondragleave="dz.leave('lsb-drop')" ondrop="dz.drop(event,'lsb')">
+                <input type="file" id="lsb-file" accept="image/*" onchange="App.loadImage(this,'lsb')">
+                <div class="dz-content" id="lsb-dz-content">
+                  <div class="dz-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+                  <p class="dz-title">Load image to visualize</p>
+                </div>
+                <div class="dz-preview" id="lsb-dz-preview" style="display:none"><img id="lsb-preview-img" src="" alt=""><div class="dz-overlay"><button class="dz-change" onclick="document.getElementById('lsb-file').click();event.stopPropagation()">Change</button></div></div>
+              </div>
+            </div>
+            <div class="card" style="margin-top:14px">
+              <div class="card-head"><span class="card-label">Channel & Bit Plane</span></div>
+              <div class="lsb-controls">
+                <div class="control-group">
+                  <label class="ctrl-label">Channel</label>
+                  <div class="channel-btns">
+                    <button class="ch-btn active" data-ch="r" onclick="LSBViz.setChannel('r', this)">R</button>
+                    <button class="ch-btn" data-ch="g" onclick="LSBViz.setChannel('g', this)">G</button>
+                    <button class="ch-btn" data-ch="b" onclick="LSBViz.setChannel('b', this)">B</button>
+                    <button class="ch-btn" data-ch="all" onclick="LSBViz.setChannel('all', this)">ALL</button>
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="ctrl-label">Bit Plane (0=LSB)</label>
+                  <div class="bit-selector" id="viz-bit-selector">
+                    <button class="bit-btn active" data-bits="0">0</button>
+                    <button class="bit-btn" data-bits="1">1</button>
+                    <button class="bit-btn" data-bits="2">2</button>
+                    <button class="bit-btn" data-bits="3">3</button>
+                    <button class="bit-btn" data-bits="4">4</button>
+                    <button class="bit-btn" data-bits="5">5</button>
+                    <button class="bit-btn" data-bits="6">6</button>
+                    <button class="bit-btn" data-bits="7">7</button>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="LSBViz.render()" style="margin-top:12px">Render Bit Plane</button>
+            </div>
+          </div>
+          <div class="col-right">
+            <div class="card" id="lsb-output-card" style="display:none">
+              <div class="card-head"><span class="card-label">Bit Plane Visualization</span><span class="card-hint" id="lsb-plane-label">—</span></div>
+              <canvas id="bitplane-canvas" style="width:100%;border-radius:8px;image-rendering:pixelated;"></canvas>
+            </div>
+            <div id="lsb-placeholder" class="placeholder-card">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              <p>Load an image and select a channel + bit plane to visualize. LSB planes (bit 0) will show random noise in clean images, and structured patterns in stego images.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ STEALTH CHECK ═══ -->
+      <section class="panel" id="panel-stealth">
+        <div class="panel-header">
+          <h1 class="panel-title">Stealth <span class="title-accent">Check</span></h1>
+          <p class="panel-subtitle">Evaluate how visually imperceptible your encoded image is</p>
+        </div>
+        <div style="max-width:600px">
+          <div class="card">
+            <div class="card-head"><span class="card-label">Upload Two Images</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div>
+                <label class="field-label" style="margin-bottom:6px;display:block">Original</label>
+                <div class="drop-zone sm" id="st-orig-drop" ondragover="dz.over(event,'st-orig-drop')" ondragleave="dz.leave('st-orig-drop')" ondrop="dz.drop(event,'st-orig')">
+                  <input type="file" id="st-orig-file" accept="image/*" onchange="App.loadImage(this,'st-orig')">
+                  <div class="dz-content" id="st-orig-dz-content"><div class="dz-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div><p class="dz-title" style="font-size:12px">Original</p></div>
+                  <div class="dz-preview" id="st-orig-dz-preview" style="display:none"><img id="st-orig-img" src="" alt=""><div class="dz-overlay"><button class="dz-change" onclick="document.getElementById('st-orig-file').click();event.stopPropagation()">Change</button></div></div>
+                </div>
+              </div>
+              <div>
+                <label class="field-label" style="margin-bottom:6px;display:block">Stego</label>
+                <div class="drop-zone sm" id="st-stego-drop" ondragover="dz.over(event,'st-stego-drop')" ondragleave="dz.leave('st-stego-drop')" ondrop="dz.drop(event,'st-stego')">
+                  <input type="file" id="st-stego-file" accept="image/*" onchange="App.loadImage(this,'st-stego')">
+                  <div class="dz-content" id="st-stego-dz-content"><div class="dz-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><p class="dz-title" style="font-size:12px">Stego</p></div>
+                  <div class="dz-preview" id="st-stego-dz-preview" style="display:none"><img id="st-stego-img" src="" alt=""><div class="dz-overlay"><button class="dz-change" onclick="document.getElementById('st-stego-file').click();event.stopPropagation()">Change</button></div></div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="Stealth.run()" style="margin-top:14px">Run Stealth Check</button>
+          </div>
+          <div id="stealth-results" style="display:none;margin-top:14px">
+            <div class="card">
+              <div class="card-head"><span class="card-label">Imperceptibility Report</span></div>
+              <div class="stealth-report" id="stealth-report"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ SETTINGS ═══ -->
+      <section class="panel" id="panel-settings">
+        <div class="panel-header">
+          <h1 class="panel-title">App <span class="title-accent">Settings</span></h1>
+          <p class="panel-subtitle">Configure default behaviour and preferences</p>
+        </div>
+        <div style="max-width:600px">
+          <div class="card">
+            <div class="card-head"><span class="card-label">Defaults</span></div>
+            <div class="options-stack">
+              <div class="opt-row">
+                <div class="opt-info"><span class="opt-name">Default LSB Depth</span></div>
+                <div class="bit-selector" id="def-bit-selector">
+                  <button class="bit-btn active" data-bits="1">1</button>
+                  <button class="bit-btn" data-bits="2">2</button>
+                  <button class="bit-btn" data-bits="3">3</button>
+                  <button class="bit-btn" data-bits="4">4</button>
+                </div>
+              </div>
+              <div class="opt-divider"></div>
+              <div class="opt-row">
+                <div class="opt-info"><span class="opt-name">Auto-enable Encryption</span></div>
+                <div class="toggle-switch" id="def-aes-toggle" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="opt-divider"></div>
+              <div class="opt-row">
+                <div class="opt-info"><span class="opt-name">Show PSNR on Encode</span></div>
+                <div class="toggle-switch on" id="def-psnr-toggle" onclick="this.classList.toggle('on')"></div>
+              </div>
+              <div class="opt-divider"></div>
+              <div class="opt-row">
+                <div class="opt-info"><span class="opt-name">Confirm before download</span></div>
+                <div class="toggle-switch" id="def-confirm-toggle" onclick="this.classList.toggle('on')"></div>
+              </div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:14px">
+            <div class="card-head"><span class="card-label">About</span></div>
+            <div class="about-block">
+              <div class="about-row"><span class="about-k">Version</span><span class="about-v">3.0.0</span></div>
+              <div class="about-row"><span class="about-k">Engine</span><span class="about-v">LSB Steganography + AES-256-CBC</span></div>
+              <div class="about-row"><span class="about-k">Crypto</span><span class="about-v">CryptoJS 4.2 (client-side)</span></div>
+              <div class="about-row"><span class="about-k">Privacy</span><span class="about-v">100% local — zero data upload</span></div>
+              <div class="about-row"><span class="about-k">Header format</span><span class="about-v">JSON 128-byte structured header</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ LOG PANEL ═══ -->
+      <section class="panel" id="panel-log">
+        <div class="panel-header">
+          <h1 class="panel-title">Session <span class="title-accent">Log</span></h1>
+          <p class="panel-subtitle">Record of all operations performed this session</p>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-label">Operations</span>
+            <button class="action-btn" onclick="Log.clear()">Clear</button>
+          </div>
+          <div id="log-container">
+            <div class="placeholder-card" id="log-placeholder">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <p>No operations yet.</p>
+            </div>
+            <div id="log-list"></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <canvas id="work-canvas" style="display:none"></canvas>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/stego.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/analysis.js"></script>
+  <script src="js/batch.js"></script>
+  <script src="js/log.js"></script>
+</body>
+</html>
